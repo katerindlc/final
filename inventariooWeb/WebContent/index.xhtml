@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+
+<h:head>
+	<f:facet name="first">
+		<meta name="viewport"
+			content="width=divice-width, initial-scale=1,shrink-to-fit=no, user-scalable=no" />
+		<title>Listado de Productos</title>
+	</f:facet>
+</h:head>
+<body>
+<div align="center">
+		<h1 style="color: black;">REGISTRO DE PRODUCTOS</h1>
+		<div class="collapse navbar-collapse navbar-right">
+		
+		</div>
+		</div>
+		
+		<CENTER>
+		<a class="btn btn-info" href="usuario.xhtml"><span
+			class="glyphicon glyphicon-log-in"></span> Usuarios</a> <a
+			class="btn btn-success" href="index.xhtml"><span
+			class="glyphicon glyphicon-log-in"></span> Producto</a>
+	</CENTER>
+<h:form id="form2">
+			<p:growl>
+				<p:autoUpdate />
+			</p:growl>
+
+
+			<p:panel>
+
+				<p:panel>
+					<p:commandButton icon="fa fa-plus" title=" Añadir Nuevo"
+						actionListener="#{beanProducto.actionListenerSelecionarProducto(prod)}"
+						update="formAgregar" oncomplete="PF('dlgAgregar').show();"
+						value=" Agregar Nuevo Producto">
+					</p:commandButton>
+
+
+		</p:panel>
+		<p:panelGrid columns="2">
+			<p:dataTable value="#{beanProducto.listaProducto}" var="prod"
+				reflow="true" paginator="true">
+				<!-- <p:column headerText="Id " sortBy="#{prod.idProducto}">
+					<h:outputText value="#{prod.idProducto}" />
+				</p:column> !-->
+				<p:column headerText="Codigo " sortBy="#{prod.codigo}"
+				filterBy="#{prod.codigo}" filterMatchMode="contains">
+					<h:outputText value="#{prod.codigo}" />
+				</p:column>
+				<p:column headerText="Nombre " sortBy="#{prod.nombre}"
+				filterBy="#{prod.nombre}" filterMatchMode="contains">
+					<h:outputText value="#{prod.nombre}" />
+				</p:column>
+				<p:column headerText="Stock " sortBy="#{prod.stock}" >
+					<h:outputText value="#{prod.stock}" />
+					<p:keyFilter regEx="/[\d\-]/" />
+				</p:column>
+				<p:column headerText="Precio de compra " sortBy="#{prod.preciocompra}">
+					<h:outputText value="#{prod.preciocompra}" />
+					
+				</p:column>
+				<p:column headerText="Precio de Venta" sortBy="#{prod.precioventa}">
+					<h:outputText value="#{prod.precioventa}" />
+					
+				</p:column>
+				<p:column headerText="Descuento" sortBy="#{prod.descuento}">
+					<h:outputText value="#{prod.descuento}" />
+					
+				</p:column>
+				<p:column headerText="Observaciones " sortBy="#{prod.observaciones}">
+					<h:outputText value="#{prod.observaciones}" />
+				</p:column>
+
+				<p:column headerText=" Acción">
+					<p:commandButton icon="fa fa-edit" title="Editar"
+						actionListener="#{beanProducto.actionListenerSelecionarProducto(prod)}"
+						update="formEdicion" oncomplete="PF('dlgEdicion').show();">
+					</p:commandButton>
+					<p:commandButton icon="fa fa-remove" title="Eliminar"
+								update="@form"
+								actionListener="#{beanProducto.actionListenerEliminarProducto(prod.idProducto)}">
+								<p:confirm header="Confirmacion"
+									message="¿Está seguro de eliminar el producto?"
+									icon="fa fa-exclamation-triangle"></p:confirm>
+							</p:commandButton>
+					
+				</p:column>
+				<f:facet name="footer">
+					<h:outputText
+						value="No de productos:
+#{beanProducto.listaProducto.size()}" />
+				</f:facet>
+
+			</p:dataTable>
+		</p:panelGrid>
+	
+</p:panel>
+</h:form>
+<p:dialog header="Agregar Nuevo Producto" widgetVar="dlgAgregar"
+	modal="true">
+	<h:form id="formAgregar">
+		<p:growl>
+			<p:autoUpdate />
+		</p:growl>
+		<p:panelGrid columns="2">
+			<h:outputText value="Codigo " />
+			<p:inputText value="#{beanProducto.producto.codigo}" required="true"
+				requiredMessage="Debe ingresar Codigo">
+			</p:inputText>
+			<h:outputText value="Nombre: " />
+			<h:inputText value="#{beanProducto.producto.nombre}" required="true"
+				requiredMessage="Debe ingresar nombres">
+			</h:inputText>
+
+			<h:outputText value="Stock " />
+			<p:spinner value="#{beanProducto.producto.stock}" required="true"
+				requiredMessage="Debe ingresar Stock" style="Width:190px">
+				<p:keyFilter regEx="/[\d\-]/" />
+				<f:validateLongRange minimum="1" />
+				
+			</p:spinner>
+
+			<h:outputText value="Precio de Compra" />
+			<p:inputText value="#{beanProducto.producto.preciocompra}" required="true"
+				requiredMessage="Debe ingresar precio">
+			</p:inputText>
+			
+			<h:outputText value="Precio de Venta" />
+			<p:inputText value="#{beanProducto.producto.precioventa}" required="true"
+				requiredMessage="Debe ingresar precio venta">
+				
+			</p:inputText>
+			
+			<h:outputText value="Descuento" />
+			<p:inputText value="#{beanProducto.producto.descuento}" >
+			
+			</p:inputText>
+			
+			<h:outputText value="Observaciones" />
+			<h:inputText  value="#{beanProducto.producto.observaciones}" converterMessage="Please enter digits only.">
+			</h:inputText> 
+
+		</p:panelGrid>
+		<p:commandButton value="Ingresar" icon="fa fa-save"
+			update="@form,:form2"
+			actionListener="#{beanProducto.actionListenerInsertarProducto()}"></p:commandButton>
+	</h:form>
+</p:dialog>
+<p:dialog header="Editar Informacion" widgetVar="dlgEdicion"
+	modal="true">
+	<h:form id="formEdicion">
+		<p:growl>
+			<p:autoUpdate />
+		</p:growl>
+		<h:outputText value="Id " />
+		<h:outputText value="#{beanProducto.productoseleccionado.idProducto}" />
+		<p:panelGrid columns="2">
+
+			<h:outputText value="Codigo " />
+			<p:inputText value="#{beanProducto.productoseleccionado.codigo}"
+				requiredMessage="Debe ingresar codigo">
+
+			</p:inputText>
+
+			<h:outputText value="Nombre: " />
+			<h:inputText value="#{beanProducto.productoseleccionado.nombre}"
+				required="true" requiredMessage="Debe ingresar nombres">
+
+			</h:inputText>
+
+			<h:outputText value="Stock " />
+			<p:spinner value="#{beanProducto.productoseleccionado.stock}"
+				required="true" requiredMessage="Debe ingresar stock">
+				<p:keyFilter regEx="/[\d\-]/" />
+				<f:validateLongRange minimum="1" />
+
+			</p:spinner>
+			<h:outputText value="Precio de compra: " />
+			<p:inputText value="#{beanProducto.productoseleccionado.preciocompra}"
+				required="true" requiredMessage="Debe ingresar precio">
+				
+			</p:inputText>
+			
+			<h:outputText value="Precio de Venta: " />
+			<p:inputText value="#{beanProducto.productoseleccionado.precioventa}"
+				required="true" requiredMessage="Debe ingresar precio">
+			</p:inputText>
+			
+			
+			<h:outputText value="Descuento: " />
+			<p:inputText value="#{beanProducto.productoseleccionado.descuento}"
+				>
+			</p:inputText>
+			
+			<h:outputText value="Observaciones: " />
+			<h:inputText value="#{beanProducto.productoseleccionado.observaciones}">
+
+			</h:inputText>
+
+		</p:panelGrid>
+		<p:commandButton value="Actualizar" icon="fa fa-save"
+			update="@form,:form2"
+			actionListener="#{beanProducto.actionListenerActualizarProducto()}"></p:commandButton>
+	</h:form>
+</p:dialog>
+<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+	<p:commandButton value="Si" type="button"
+		styleClass="ui-confirmdialog-yes" icon="fa fa-check" />
+	<p:commandButton value="No" type="button"
+		styleClass="ui-confirmdialog-no" icon="fa fa-times" />
+</p:confirmDialog>
+</body>
+</html>
