@@ -1,0 +1,48 @@
+CREATE TABLE producto
+(
+  id_producto serial,
+  codigo varchar(50) not null,
+  nombre varchar(50) not null,
+  stock integer not null,
+  preciocompra float not null,
+  precioventa float not null,
+  descuento float not null,
+  observaciones text,
+  CONSTRAINT id_producto PRIMARY KEY (id_producto)
+)
+
+CREATE TABLE usuario
+(
+  id_usuario serial,
+  cedula varchar(10) NOT NULL unique,
+  ruc varchar(15),
+  nombres varchar(50) NOT NULL,
+  apellidos varchar(50) NOT NULL,
+  direccion text,
+  telefono varchar(50),
+  email text,
+  CONSTRAINT id_usuario PRIMARY KEY (id_usuario)
+)
+
+create table ventas
+(
+id_venta serial,
+cantidad integer,
+iva double,
+subtotal double,
+total double
+CONSTRAINT id_venta PRIMARY KEY (id_venta)
+)
+
+public void insertarEstudiante(Estudiante estudiante) throws Exception {
+    	if(findEstudianteByCedula(estudiante.getCedula())!=null)
+    		throw new Exception("Ya existe la cedula indicada");
+    	em.persist(estudiante);
+    	
+    }
+
+<f:facet name="footer">
+					<h:outputText
+						value="No de productos:
+#{beanCarrito.listaProductos.size()}" />
+				</f:facet>
